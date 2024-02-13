@@ -42,7 +42,7 @@ public partial class @UserControls: IInputActionCollection2, IDisposable
                     ""id"": ""ea31df7b-deb8-4975-90a1-c394cec2ccf8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -114,7 +114,7 @@ public partial class @UserControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fcc0fae9-adb5-4672-91d8-b33e6c2f1962"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
