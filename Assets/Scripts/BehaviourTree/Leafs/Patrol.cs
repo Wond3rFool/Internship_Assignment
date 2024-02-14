@@ -21,6 +21,7 @@ public class Patrol : Node
 			}
 			return NodeState.RUNNING;
 		}
+		return NodeState.FAILED;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 	}
 
 }
