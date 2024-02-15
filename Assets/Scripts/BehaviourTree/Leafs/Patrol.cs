@@ -33,6 +33,7 @@ public class Patrol: Node
 				waiting = false;
 				waitTime = Random.Range(0.1f, waitTime + 2);
 			}
+			return NodeState.SUCCESS;
 		}
 		else
 		{
@@ -44,13 +45,14 @@ public class Patrol: Node
 
 				Vector2 randomPoint = Random.insideUnitCircle.normalized * patrolRadius;
 				nextWaypointPosition = originPosition + new Vector3(randomPoint.x, randomPoint.y, 0);
+				return NodeState.SUCCESS;
 			}
 			else
 			{
 				Vector3 direction = nextWaypointPosition - transform.position;
 				transform.position += direction.normalized * moveSpeed * Time.deltaTime;
+				return NodeState.SUCCESS;
 			}
 		}
-		return NodeState.RUNNING;
 	} 
 }

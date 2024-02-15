@@ -35,7 +35,7 @@ public class PatrolOfficer: BehaviourTree
 			new Sequence(new List<Node>
 			{
 				new InAttackRange(gameObject, attackRadius, enemyID),
-
+				new Log("hey")
 			}),
 			new Patrol(transform, speed, patrolRadius)
 		});
