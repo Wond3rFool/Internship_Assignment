@@ -12,10 +12,14 @@ public class PatrolOfficer: BehaviourTree
 	[SerializeField]
 	[Range(1.0f, 15.0f)]
 	private float patrolRadius;
-	
+
 	[SerializeField]
 	[Range(10.0f, 1000.0f)]
 	private float detectRadius;
+
+	[SerializeField]
+	[Range(1.0f, 7.0f)]
+	private float attackRadius;
 
 	private string enemyID;
 
@@ -26,12 +30,14 @@ public class PatrolOfficer: BehaviourTree
 
 	protected override Node SetupTree()
 	{
-		Node root = new Sequence(new List<Node>
+		Node root = new Selector(new List<Node>
 		{
-			new CheckForPlayer(gameObject, detectRadius, enemyID),
-			new Selector(new List<Node>
+			new Inverter(
+				new CheckForPlayer(gameObject, detectRadius, enemyID)),
+			new Sequence(new List<Node>
 			{
-				
+				new InAttackRange(gameObject, attackRadius, enemyID),
+				new Log("player in attack range")
 			}),
 			new Patrol(transform, speed, patrolRadius)
 		});
