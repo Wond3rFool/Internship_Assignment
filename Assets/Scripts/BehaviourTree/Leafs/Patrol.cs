@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Patrol: Node
 {
-
 	private float waitTime = 1f; // in seconds
 	private float waitCounter = 0f;
 	private bool waiting = false;
@@ -49,7 +48,7 @@ public class Patrol: Node
 			else
 			{
 				Vector3 direction = nextWaypointPosition - transform.position;
-				transform.position += direction.normalized * moveSpeed * Time.fixedDeltaTime;
+				transform.position += direction.normalized * moveSpeed * Time.deltaTime;
 			}
 		}
 		return NodeState.RUNNING;

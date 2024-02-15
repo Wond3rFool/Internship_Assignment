@@ -20,8 +20,6 @@ public class PatrolOfficer: BehaviourTree
 			new Patrol(transform, speed, patrolRadius)
 	
 		});
-
-
 		return root;
 	}
 }
