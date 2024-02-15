@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckForPlayer: Node
+public class InRangeFor: Node
 {
 	private int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
 
@@ -10,7 +10,7 @@ public class CheckForPlayer: Node
 	private float detectRadius;
 	private string detection;
 
-	public CheckForPlayer(GameObject gameObject, float detectRadius , string detection)
+	public InRangeFor(GameObject gameObject, float detectRadius , string detection)
 	{
 		this.gameObject = gameObject;
 		this.detectRadius = detectRadius;

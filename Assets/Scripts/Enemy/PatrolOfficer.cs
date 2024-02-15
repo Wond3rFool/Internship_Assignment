@@ -32,12 +32,10 @@ public class PatrolOfficer: BehaviourTree
 	{
 		Node root = new Selector(new List<Node>
 		{
-			new Inverter(
-				new CheckForPlayer(gameObject, detectRadius, enemyID)),
 			new Sequence(new List<Node>
 			{
 				new InAttackRange(gameObject, attackRadius, enemyID),
-				new Log("player in attack range")
+
 			}),
 			new Patrol(transform, speed, patrolRadius)
 		});
