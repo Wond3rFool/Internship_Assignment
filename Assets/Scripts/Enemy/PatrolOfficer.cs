@@ -21,6 +21,9 @@ public class PatrolOfficer: BehaviourTree
 	[Range(1.0f, 7.0f)]
 	private float attackRadius;
 
+	[SerializeField]
+	private Transform weaponTransform;
+
 	private string enemyID;
 
 	private void Awake()
@@ -35,6 +38,7 @@ public class PatrolOfficer: BehaviourTree
 			new Sequence(new List<Node>
 			{
 				new InAttackRange(gameObject, attackRadius, enemyID),
+				new AimAt(weaponTransform, enemyID),
 				new Log("hey")
 			}),
 			new Patrol(transform, speed, patrolRadius)

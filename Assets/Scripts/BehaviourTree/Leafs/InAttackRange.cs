@@ -18,7 +18,7 @@ public class InAttackRange : Node
 	}
 	public override NodeState Evaluate()
 	{
-		object t = GetData(detection);
+		object t = parent.parent.GetData(detection);
 		if(t == null)
 		{
 			Collider2D[] colliders = Physics2D.OverlapCircleAll(
@@ -26,7 +26,7 @@ public class InAttackRange : Node
 
 			if(colliders.Length > 0)
 			{
-				SetData(detection, colliders[0].transform);
+				parent.parent.SetData(detection, colliders[0].transform);
 				return NodeState.SUCCESS;
 			}
 			return NodeState.FAILED;
@@ -37,7 +37,7 @@ public class InAttackRange : Node
 			float distance = Vector2.Distance(gameObject.transform.position, targetTransform.position);
 			if(distance > attackRadius)
 			{
-				ClearData(detection);
+				parent.parent.ClearData(detection);
 				return NodeState.FAILED;
 			}
 		}
