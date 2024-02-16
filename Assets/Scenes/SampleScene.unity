@@ -311,6 +311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0206e40b12d8cad4bba643168d07b0f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 1737319775501334070, guid: b2dd0a85169bd104f99c318e02b80d94, type: 3}
+  firePoint: {fileID: 585223440}
+  fireRate: 1.2
 --- !u!61 &491521610
 BoxCollider2D:
   m_ObjectHideFlags: 0
