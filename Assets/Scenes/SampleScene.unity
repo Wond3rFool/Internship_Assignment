@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 132017120}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.28280294, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -794,7 +794,7 @@ Transform:
   m_GameObject: {fileID: 825378661}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.19, y: -0.6746064, z: 0.06366538}
+  m_LocalPosition: {x: 3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -937,6 +937,8 @@ MonoBehaviour:
   detectRadius: 1000
   attackRadius: 5
   weaponTransform: {fileID: 849364778}
+  projectilePrefab: {fileID: 1737319775501334070, guid: b2dd0a85169bd104f99c318e02b80d94, type: 3}
+  fireRate: 1
 --- !u!61 &1274714425
 BoxCollider2D:
   m_ObjectHideFlags: 0

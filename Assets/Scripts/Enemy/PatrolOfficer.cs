@@ -24,6 +24,15 @@ public class PatrolOfficer: BehaviourTree
 	[SerializeField]
 	private Transform weaponTransform;
 
+	[SerializeField]
+	private GameObject projectilePrefab;
+
+	[SerializeField]
+	[Range(0.1f, 10.0f)]
+	private float fireRate;
+
+
+
 	private string enemyID;
 
 	private void Awake()
@@ -40,7 +49,9 @@ public class PatrolOfficer: BehaviourTree
 			{
 				new InAttackRange(gameObject, attackRadius, enemyID),
 				new AimAt(weaponTransform, enemyID),
-				new Log("hey")
+				new WaitFor(fireRate),
+				new Shoot(transform, weaponTransform, projectilePrefab, enemyID)
+
 			}),
 			new Patrol(transform, speed, patrolRadius)
 		});
