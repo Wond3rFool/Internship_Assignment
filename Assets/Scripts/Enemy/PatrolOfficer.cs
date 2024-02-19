@@ -53,7 +53,7 @@ public class PatrolOfficer: BehaviourTree
 			{
 				new CheckRadiusFor(gameObject, patrolRadius, enemyID),
 				new FindInteractable(gameObject, detectRadius, enemyID+"Doors"),
-				//Walk to door
+				new WalkToClosest(agent, enemyID+"Doors"),
 				//open door
 				new Inverter(new Log("seen player"))
 			}),
