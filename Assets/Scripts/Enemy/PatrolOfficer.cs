@@ -14,11 +14,11 @@ public class PatrolOfficer: BehaviourTree
 	private float speed;
 
 	[SerializeField]
-	[Range(1.0f, 15.0f)]
+	[Range(4.0f, 15.0f)]
 	private float patrolRadius;
 
 	[SerializeField]
-	[Range(4.0f, 15.0f)]
+	[Range(4.0f, 50.0f)]
 	private float detectRadius;
 
 	[SerializeField]
@@ -51,8 +51,8 @@ public class PatrolOfficer: BehaviourTree
 		{
 			new Sequence(new List<Node>
 			{
-				new CheckRadiusFor(gameObject, detectRadius, enemyID),
-				//Check for door
+				new CheckRadiusFor(gameObject, patrolRadius, enemyID),
+				new FindInteractable(gameObject, detectRadius, enemyID+"Doors"),
 				//Walk to door
 				//open door
 				new Inverter(new Log("seen player"))
