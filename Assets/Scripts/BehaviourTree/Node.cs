@@ -65,6 +65,4 @@ public class Node
 		node.parent = this;
 		children.Add(node);
 	}
-
-
 }

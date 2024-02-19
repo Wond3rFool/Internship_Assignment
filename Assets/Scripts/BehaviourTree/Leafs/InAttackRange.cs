@@ -26,7 +26,7 @@ public class InAttackRange : Node
 
 			if(colliders.Length > 0)
 			{
-				parent.parent.SetData(detection, colliders[0].transform);
+				parent.parent.SetData(detection, colliders[0].transform); // set the data in the parent so all child nodes can find it.
 				return NodeState.SUCCESS;
 			}
 			return NodeState.FAILED;

@@ -28,6 +28,7 @@ public class PatrolOfficer: BehaviourTree
 
 	private void Awake()
 	{
+		//Get an unique ID so you have a way to store the data of the player unique to this enemy.
 		enemyID = gameObject.GetInstanceID().ToString();
 	}
 
