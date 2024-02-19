@@ -48,8 +48,11 @@ public class PatrolOfficer: BehaviourTree
 			new Sequence(new List<Node>
 			{
 				new InAttackRange(gameObject, attackRadius, enemyID),
-				new AimAt(weaponTransform, enemyID),
-				new WaitFor(fireRate),
+				new ParallelSequence(new List<Node>
+				{
+					new AimAt(weaponTransform, enemyID),
+					new WaitFor(fireRate)
+				}),
 				new Shoot(transform, weaponTransform, projectilePrefab, enemyID)
 
 			}),
