@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PatrolOfficer: BehaviourTree
 {
@@ -29,10 +30,16 @@ public class PatrolOfficer: BehaviourTree
 
 	private string enemyID;
 
+	private NavMeshAgent agent;
+
 	private void Awake()
 	{
 		//Get an unique ID so you have a way to store the data of the player unique to this enemy.
 		enemyID = gameObject.GetInstanceID().ToString();
+		agent = GetComponent<NavMeshAgent>();
+		agent.updateRotation = false;
+		agent.updateUpAxis = false;
+		agent.speed = speed;
 	}
 
 	protected override Node SetupTree()
@@ -50,7 +57,7 @@ public class PatrolOfficer: BehaviourTree
 				new Shoot(transform, weaponTransform, projectilePrefab, enemyID)
 
 			}),
-			new Patrol(transform, speed, waypoints)
+			new Patrol(agent, waypoints)
 		});
 		return root;
 	}
