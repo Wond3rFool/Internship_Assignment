@@ -8,6 +8,9 @@ public class PatrolOfficer: BehaviourTree
 	public Transform[] waypoints;
 
 	[SerializeField]
+	private LayerMask objectLayer;
+
+	[SerializeField]
 	private float speed;
 
 	[SerializeField]
@@ -49,6 +52,13 @@ public class PatrolOfficer: BehaviourTree
 			new Sequence(new List<Node>
 			{
 				new CheckRadiusFor(gameObject, detectRadius, enemyID),
+				//Check for door
+				//Walk to door
+				//open door
+				new Inverter(new Log("seen player"))
+			}),
+			new Sequence(new List<Node>{
+				new HasLOS(transform, enemyID, objectLayer),
 				new ParallelSequence(new List<Node>
 				{
 					new AimAt(weaponTransform, enemyID),

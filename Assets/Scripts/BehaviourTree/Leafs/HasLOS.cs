@@ -25,20 +25,23 @@ public class HasLOS: Node
 			// Calculate direction to the player
 			Vector2 direction = targetTransform.position - transform.position;
 
-			// Cast a ray from the enemy towards the player
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, Mathf.Infinity, obstacleLayer);
+			// Linecast to check for obstacles
+			RaycastHit2D[] hits = Physics2D.LinecastAll(transform.position, targetTransform.position, obstacleLayer);
 
-			// Check if the player is in line of sight (no obstacles hit)
-			if(hit.collider != null && hit.collider.CompareTag("Player"))
+			// Check if any obstacle is hit
+			for(int i = 0; i < hits.Length; i++)
 			{
-				// Player is in line of sight
-				return NodeState.SUCCESS;
+				if(hits[i].collider.CompareTag("Obstacle"))
+				{
+					// Obstacle in the way
+					return NodeState.FAILED;
+				}
 			}
-			else
-			{
-				return NodeState.FAILED;
-			}
+
+			// No obstacles, player is in line of sight
+			return NodeState.SUCCESS;
 		}
+
 		return NodeState.FAILED;
 	}
 }

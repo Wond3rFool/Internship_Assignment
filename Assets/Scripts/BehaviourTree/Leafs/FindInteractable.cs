@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InRangeFor: Node
+public class FindInteractable: Node
 {
-	private int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
+	private int interactableLayer = 1 << LayerMask.NameToLayer("Interactable");
 
 	private GameObject gameObject;
 	private float detectRadius;
 	private string detection;
 
-	public InRangeFor(GameObject gameObject, float detectRadius , string detection)
+	public FindInteractable(GameObject gameObject, float detectRadius , string detection)
 	{
 		this.gameObject = gameObject;
 		this.detectRadius = detectRadius;
@@ -23,7 +23,7 @@ public class InRangeFor: Node
 		if(t == null)
 		{
 			Collider2D[] colliders = Physics2D.OverlapCircleAll(
-				gameObject.transform.position, detectRadius, playerLayerMask);
+				gameObject.transform.position, detectRadius, interactableLayer);
 
 			if(colliders.Length > 0)
 			{

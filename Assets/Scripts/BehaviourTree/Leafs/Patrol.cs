@@ -73,7 +73,6 @@ public class Patrol: Node
 			{
 				// Set the destination for the NavMeshAgent
 				agent.SetDestination(currentWaypoint.position);
-
 				return NodeState.SUCCESS;
 			}
 		}
