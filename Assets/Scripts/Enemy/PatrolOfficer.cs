@@ -14,12 +14,8 @@ public class PatrolOfficer: BehaviourTree
 	private float patrolRadius;
 
 	[SerializeField]
-	[Range(10.0f, 1000.0f)]
+	[Range(4.0f, 15.0f)]
 	private float detectRadius;
-
-	[SerializeField]
-	[Range(1.0f, 7.0f)]
-	private float attackRadius;
 
 	[SerializeField]
 	private Transform weaponTransform;
@@ -30,8 +26,6 @@ public class PatrolOfficer: BehaviourTree
 	[SerializeField]
 	[Range(0.1f, 10.0f)]
 	private float fireRate;
-
-
 
 	private string enemyID;
 
@@ -47,7 +41,7 @@ public class PatrolOfficer: BehaviourTree
 		{
 			new Sequence(new List<Node>
 			{
-				new InAttackRange(gameObject, attackRadius, enemyID),
+				new CheckRadiusFor(gameObject, detectRadius, enemyID),
 				new ParallelSequence(new List<Node>
 				{
 					new AimAt(weaponTransform, enemyID),
@@ -56,7 +50,7 @@ public class PatrolOfficer: BehaviourTree
 				new Shoot(transform, weaponTransform, projectilePrefab, enemyID)
 
 			}),
-			new Patrol(transform, speed, patrolRadius)
+			new Patrol(transform, speed, waypoints)
 		});
 		return root;
 	}

@@ -9,50 +9,63 @@ public class Patrol: Node
 	private bool waiting = false;
 
 	private Transform transform;
-	private Vector3 originPosition;
-	private Vector3 nextWaypointPosition;
+	private List<Transform> waypoints = new List<Transform>();
+	private int currentWaypointIndex = 0;
 
 	private float moveSpeed;
-	private float patrolRadius;
-	public Patrol(Transform source, float moveSpeed, float patrolRadius)
-	{ 
+
+	public Patrol(Transform source, float moveSpeed, Transform[] patrolWaypoints)
+	{
 		transform = source;
-		originPosition = transform.position;
-		nextWaypointPosition = originPosition;
 		this.moveSpeed = moveSpeed;
-		this.patrolRadius = patrolRadius;
+
+		if(patrolWaypoints != null && patrolWaypoints.Length > 0)
+		{
+			waypoints.AddRange(patrolWaypoints);
+		}
+		else
+		{
+			Debug.LogWarning("No waypoints provided for patrol.");
+		}
 	}
 
 	public override NodeState Evaluate()
 	{
+		if(waypoints.Count == 0)
+		{
+			Debug.LogWarning("No waypoints available for patrol.");
+			return NodeState.FAILED;
+		}
+
 		if(waiting)
 		{
 			waitCounter += Time.deltaTime;
 			if(waitCounter > waitTime)
 			{
 				waiting = false;
-				waitTime = Random.Range(0.1f, waitTime + 2);
+				waitCounter = 0f;
 			}
 			return NodeState.SUCCESS;
 		}
 		else
 		{
-			if(Vector3.Distance(transform.position, nextWaypointPosition) < 0.3f)
+			Transform currentWaypoint = waypoints[currentWaypointIndex];
+			if(Vector3.Distance(transform.position, currentWaypoint.position) < 0.3f)
 			{
-				transform.position = nextWaypointPosition;
-				waitCounter = 0f;
 				waiting = true;
+				waitTime = Random.Range(0.1f, waitTime + 2);
 
-				Vector2 randomPoint = Random.insideUnitCircle.normalized * patrolRadius;
-				nextWaypointPosition = originPosition + new Vector3(randomPoint.x, randomPoint.y, 0);
+				currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+
 				return NodeState.SUCCESS;
 			}
 			else
 			{
-				Vector3 direction = nextWaypointPosition - transform.position;
+				Vector3 direction = currentWaypoint.position - transform.position;
 				transform.position += direction.normalized * moveSpeed * Time.deltaTime;
 				return NodeState.SUCCESS;
 			}
 		}
-	} 
+	}
 }
+

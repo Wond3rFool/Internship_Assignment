@@ -2,31 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InAttackRange : Node
+public class CheckRadiusFor : Node
 {
 	private int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
 
 	private GameObject gameObject;
-	private float attackRadius;
-	private string detection;
+	private float checkRadius;
+	private string decectionTarget;
 
-	public InAttackRange(GameObject gameObject, float attackRadius,string detection )
+	public CheckRadiusFor(GameObject gameObject, float checkRadius, string detectionTarget)
 	{
 		this.gameObject = gameObject;
-		this.attackRadius = attackRadius;
-		this.detection = detection;
+		this.checkRadius = checkRadius;
+		this.decectionTarget = detectionTarget;
 	}
 	public override NodeState Evaluate()
 	{
-		object t = parent.parent.GetData(detection);
+		object t = parent.parent.GetData(decectionTarget);
 		if(t == null)
 		{
 			Collider2D[] colliders = Physics2D.OverlapCircleAll(
-				gameObject.transform.position, attackRadius, playerLayerMask);
+				gameObject.transform.position, checkRadius, playerLayerMask);
 
 			if(colliders.Length > 0)
 			{
-				parent.parent.SetData(detection, colliders[0].transform); // set the data in the parent so all child nodes can find it.
+				parent.parent.SetData(decectionTarget, colliders[0].transform); // set the data in the parent so all child nodes can find it.
 				return NodeState.SUCCESS;
 			}
 			return NodeState.FAILED;
@@ -35,9 +35,9 @@ public class InAttackRange : Node
 		{
 			Transform targetTransform = (Transform)t;
 			float distance = Vector2.Distance(gameObject.transform.position, targetTransform.position);
-			if(distance > attackRadius)
+			if(distance > checkRadius)
 			{
-				parent.parent.ClearData(detection);
+				parent.parent.ClearData(decectionTarget);
 				return NodeState.FAILED;
 			}
 		}
