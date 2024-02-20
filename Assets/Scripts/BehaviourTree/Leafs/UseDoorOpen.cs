@@ -22,7 +22,7 @@ public class UseDoorOpen : Node
 			Transform interactable = (Transform)t;
 
 			// Assuming OpenDoor is a MonoBehaviour attached to the interactable GameObject
-			OpenDoor openDoorComponent = interactable.gameObject.GetComponent<OpenDoor>();
+			OpenDoor openDoorComponent = interactable.gameObject.GetComponentInParent<OpenDoor>();
 
 			if(openDoorComponent != null && agent.remainingDistance < 0.3f)
 			{

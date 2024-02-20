@@ -2,25 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaitFor : Node
+public class WaitFor: Node
 {
-	private float timer;
+	private float elapsedTime;
 	private float timeToWait;
-	public WaitFor(float timeToWait) 
+	private bool isRunning;
+
+	public WaitFor(float timeToWait)
 	{
 		this.timeToWait = timeToWait;
 	}
 
-
 	public override NodeState Evaluate()
 	{
-		if(Time.time > timer)
+		elapsedTime += Time.deltaTime;
+
+		if(elapsedTime >= timeToWait)
 		{
-			timer = Time.time + timeToWait;
+			elapsedTime = 0f;
+			isRunning = false;
 			return NodeState.SUCCESS;
 		}
 
+		// Timer is still running
 		return NodeState.RUNNING;
 	}
-
 }

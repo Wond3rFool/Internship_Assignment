@@ -16,8 +16,8 @@ public class OpenDoor: MonoBehaviour
 	void Awake()
 	{
 		animator = GetComponent<Animator>();
-		boxCollider = GetComponent<BoxCollider2D>();
-		modifier = GetComponent<NavMeshModifier>();
+		boxCollider = GetComponentInChildren<BoxCollider2D>();
+		modifier = GetComponentInChildren<NavMeshModifier>();
 	}
 
 	public void PlayDoorOpenAnimation() 

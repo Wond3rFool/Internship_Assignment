@@ -41,8 +41,6 @@ public class PatrolOfficer: BehaviourTree
 
 	private NavMeshAgent agent;
 
-	private bool playerDetected;
-
 	private void Awake()
 	{
 		//Get an unique ID so you have a way to store the data of the player unique to this enemy.
@@ -68,25 +66,23 @@ public class PatrolOfficer: BehaviourTree
 				new FindInteractable(gameObject, doorID),
 				new WalkToClosest(agent, doorID),
 				new UseDoorOpen(agent, doorID),
-				new WaitFor(1.2f),
 				new SetDestination(agent, doorPoint.position),
-				new WaitFor(0.5f),
 				new Sequence(new List<Node>
 				{
+					new SetDestinationInterrupt(agent, playerID),
 					new ParallelSequence(new List<Node>
 					{
-						new SetDestinationInterrupt(agent, playerID),
-						new Inverter(new HasLOS(transform, enemyID, objectLayer))
+						new WaitFor(3f),
+						new Inverter(new HasLOS(transform, enemyID, objectLayer)),
+						new Log("log")
 					}),
-					new ParallelSequence(new List<Node>
-					{
-						 new WaitFor(20.0f),
-						 new Log("Debugging")
- 					}),
+					new SetDestination(agent, transform.position),
+					new WaitFor(0.4f),
 					new SetDestination(agent, roomPoint.position),
 					new UseDoorClose(agent, doorID),
-					new Inverter(new WaitFor(0.2f))
+					new Inverter(new WaitFor(0.1f))
 				}),
+
 			}),
 			new Sequence(new List<Node>{
 				new HasLOS(transform, enemyID, objectLayer),
@@ -103,15 +99,5 @@ public class PatrolOfficer: BehaviourTree
 			new Patrol(agent, waypoints)
 		});
 		return root;
-	}
-
-	private void SetPlayerDetection(bool isDetected) 
-	{
-		playerDetected = isDetected;
-	}
-
-	private bool PlayerDetected() 
-	{
-		return playerDetected;
 	}
 }
