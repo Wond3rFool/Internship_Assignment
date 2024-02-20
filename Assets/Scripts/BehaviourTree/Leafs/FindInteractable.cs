@@ -8,20 +8,18 @@ public class FindInteractable: Node
 	private int interactableLayer = 1 << LayerMask.NameToLayer("Interactable");
 
 	private GameObject gameObject;
-	private float detectRadius;
 	private string detection;
 
-	public FindInteractable(GameObject gameObject, float detectRadius , string detection)
+	public FindInteractable(GameObject gameObject,  string detection)
 	{
 		this.gameObject = gameObject;
-		this.detectRadius = detectRadius;
 		this.detection = detection;
 	}
 
 	public override NodeState Evaluate()
 	{
 		Collider2D[] colliders = Physics2D.OverlapCircleAll(
-			gameObject.transform.position, detectRadius, interactableLayer);
+			gameObject.transform.position, float.MaxValue, interactableLayer);
 
 		Transform closestInteractable = null;
 

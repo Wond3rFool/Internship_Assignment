@@ -1,42 +1,45 @@
+using NavMeshPlus.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OpenDoor: MonoBehaviour
 {
+	[SerializeField]
+	NavMeshSurface surface;
+
 	private Animator animator;
-	private Material material;
 	private BoxCollider2D boxCollider;
+	private NavMeshModifier modifier;
 	// Start is called before the first frame update
 	void Awake()
 	{
 		animator = GetComponent<Animator>();
-		material = GetComponent<Material>();	
 		boxCollider = GetComponent<BoxCollider2D>();
+		modifier = GetComponent<NavMeshModifier>();
 	}
 
 	public void PlayDoorOpenAnimation() 
 	{
+		modifier.area = 0;
 		animator.SetBool("OpenDoor", true);
-		Color materialAlpha = material.color;
-		materialAlpha.a = 0f;
-		material.color = materialAlpha;
  	}
 
 	public void PlayDoorCloseAnimation() 
 	{
+		modifier.area = 1;
 		animator.SetBool("OpenDoor", false);
-		Color materialAlpha = material.color;
-		materialAlpha.a = 1f;
-		material.color = materialAlpha;
 	}
 
 	public void TurnOffCollider() 
 	{
 		boxCollider.enabled = false;
+		surface.UpdateNavMesh(surface.navMeshData);
 	}
 	public void TurnOnCollider() 
 	{
-		boxCollider.enabled = true;	
+		boxCollider.enabled = true;
+		surface.UpdateNavMesh(surface.navMeshData);
 	}
 }

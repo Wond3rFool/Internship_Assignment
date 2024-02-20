@@ -15,7 +15,8 @@ public class PlayerMovement: MonoBehaviour
 	private Vector2 moveDirection;
 	private bool isSneaking;
 
- 
+	public static bool isMoving;
+
 	private void OnMove(InputValue value) 
 	{
 		moveDirection = value.Get<Vector2>();
@@ -29,6 +30,10 @@ public class PlayerMovement: MonoBehaviour
     {
 		float currentSpeed = isSneaking ? moveSpeed * sneakSpeed : moveSpeed;
 		Vector3 movement = new Vector3(moveDirection.x, moveDirection.y, 0) * currentSpeed * Time.deltaTime;
+
+		if(movement.sqrMagnitude < 0.0001f || isSneaking) { isMoving = false; }
+		else {isMoving = true;}
+
 		transform.Translate(movement);
 	} 
 }

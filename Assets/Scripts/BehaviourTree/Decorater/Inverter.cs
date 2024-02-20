@@ -9,6 +9,7 @@ public class Inverter: Node
 	public Inverter(Node child)
 	{
 		this.child = child;
+		child.parent = this;
 	}
 
 	public override NodeState Evaluate()

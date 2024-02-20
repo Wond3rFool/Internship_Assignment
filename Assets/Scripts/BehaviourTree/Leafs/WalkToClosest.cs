@@ -21,7 +21,7 @@ public class WalkToClosest : Node
 			Transform transform = (Transform)t;
 
 			agent.SetDestination(transform.position);
-			if(!agent.pathPending && agent.remainingDistance < 0.4f)
+			if(!agent.pathPending && agent.remainingDistance < 0.1f)
 			{
 				return NodeState.SUCCESS;
 			}
