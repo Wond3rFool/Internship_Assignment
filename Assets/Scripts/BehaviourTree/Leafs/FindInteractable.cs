@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class FindInteractable: Node
 {
@@ -19,19 +20,35 @@ public class FindInteractable: Node
 
 	public override NodeState Evaluate()
 	{
-		object t = GetData(detection);
-		if(t == null)
-		{
-			Collider2D[] colliders = Physics2D.OverlapCircleAll(
-				gameObject.transform.position, detectRadius, interactableLayer);
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(
+			gameObject.transform.position, detectRadius, interactableLayer);
 
-			if(colliders.Length > 0)
+		Transform closestInteractable = null;
+
+		foreach(var collider in colliders)
+		{
+			if(CanReachDestination(collider.transform.position)) 
 			{
-				SetData(detection, colliders[0].transform);
-				return NodeState.SUCCESS;
+				closestInteractable = collider.transform;
 			}
-			return NodeState.FAILED;
 		}
-		return NodeState.SUCCESS;
+
+		if(closestInteractable != null)
+		{
+			parent.parent.SetData(detection, closestInteractable);
+			return NodeState.SUCCESS;
+		}
+
+		return NodeState.FAILED;
+	}
+	private bool CanReachDestination(Vector3 destination)
+	{
+		NavMeshPath path = new NavMeshPath();
+
+		// Calculate the path to the destination
+		bool pathIsValid = gameObject.GetComponent<NavMeshAgent>().CalculatePath(destination, path);
+
+		return pathIsValid;
 	}
 }
+

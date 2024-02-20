@@ -15,9 +15,18 @@ public class WalkToClosest : Node
 
 	public override NodeState Evaluate()
 	{
+		object t = GetData(detectionTarget);
+		if(t != null) 
+		{
+			Transform transform = (Transform)t;
 
-
-
-		return NodeState.SUCCESS;
+			agent.SetDestination(transform.position);
+			if(!agent.pathPending && agent.remainingDistance < 0.4f)
+			{
+				return NodeState.SUCCESS;
+			}
+			return NodeState.RUNNING;
+		}
+		return NodeState.FAILED;
 	}
 }

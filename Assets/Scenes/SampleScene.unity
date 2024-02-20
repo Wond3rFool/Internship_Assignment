@@ -714,9 +714,11 @@ GameObject:
   - component: {fileID: 536786355}
   - component: {fileID: 536786354}
   - component: {fileID: 536786353}
+  - component: {fileID: 536786357}
+  - component: {fileID: 536786356}
   m_Layer: 9
   m_Name: Door
-  m_TagString: Obstacle
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -768,7 +770,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.00000029802322, y: 0.008470058}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -779,7 +781,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.0478086, y: 1.4573829}
   m_EdgeRadius: 0
 --- !u!114 &536786354
 MonoBehaviour:
@@ -849,6 +851,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &536786356
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536786351}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ecc87d91108542a4e81e91580e70e9eb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &536786357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536786351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bd05b5b4f3fd947b329befce3dbb94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &550290221
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,7 +2117,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   speed: 9
-  patrolRadius: 9.61
+  patrolRadius: 10
   detectRadius: 50
   weaponTransform: {fileID: 849364778}
   projectilePrefab: {fileID: 1737319775501334070, guid: b2dd0a85169bd104f99c318e02b80d94, type: 3}
