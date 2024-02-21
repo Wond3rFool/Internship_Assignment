@@ -39,6 +39,9 @@ public class PatrolOfficer: BehaviourTree
 	private string doorID;
 	private string playerID;
 
+	private bool foundDoor;
+	private bool doorIsOpen;
+
 	private NavMeshAgent agent;
 
 	private void Awake()
@@ -51,6 +54,8 @@ public class PatrolOfficer: BehaviourTree
 		agent.updateRotation = false;
 		agent.updateUpAxis = false;
 		agent.speed = speed;
+		foundDoor = false;
+		doorIsOpen = false;
 	}
 
 	protected override Node SetupTree()
@@ -61,25 +66,43 @@ public class PatrolOfficer: BehaviourTree
 
 			new Sequence(new List<Node>
 			{
+				new Inverter(new HasLOS(transform, enemyID, objectLayer)),
 				new DetectPlayer(gameObject, detectRadius, enemyID),
 				new SetLKPosition(this, enemyID, playerID),
-				new FindInteractable(gameObject, doorID),
+				new Succeeder(new Sequence(new List<Node>
+				{
+					new Inverter(new Condition(() => foundDoor)),
+					new FindInteractable(gameObject, doorID),
+					new Function(() => foundDoor = true),
+				})),
+
 				new WalkToClosest(agent, doorID),
-				new UseDoorOpen(agent, doorID),
+				new Succeeder(new Sequence(new List<Node>
+				{
+					new Inverter(new Condition(() => doorIsOpen)),
+					new UseDoorOpen(agent, doorID),
+					new Function(() => doorIsOpen = true),
+
+				})),
 				new SetDestination(agent, doorPoint.position),
+				new WaitFor(1.0f),
 				new Sequence(new List<Node>
 				{
 					new SetDestinationInterrupt(agent, playerID),
 					new ParallelSequence(new List<Node>
 					{
-						new WaitFor(3f),
+						new WaitFor(2.5f),
 						new Inverter(new HasLOS(transform, enemyID, objectLayer)),
 						new Log("log")
 					}),
-					new SetDestination(agent, transform.position),
-					new WaitFor(0.4f),
-					new SetDestination(agent, roomPoint.position),
+					new WaitFor(1.5f),
+					new ParallelSequence(new List<Node>
+					{
+						new SetDestination(agent, roomPoint.position),
+						new Inverter(new HasLOS(transform, enemyID, objectLayer))
+					}),
 					new UseDoorClose(agent, doorID),
+					new Function(() => doorIsOpen = false),
 					new Inverter(new WaitFor(0.1f))
 				}),
 
@@ -89,13 +112,13 @@ public class PatrolOfficer: BehaviourTree
 				new SetLKPosition(this, enemyID, playerID),
 				new ParallelSequence(new List<Node>
 				{
-					new SetDestinationInterrupt(agent, playerID),
-					new HasLOS(transform, enemyID, objectLayer),
 					new AimAt(weaponTransform, enemyID),
+					new SetDestinationInterrupt(agent, playerID),
 					new WaitFor(fireRate)
 				}),
 				new Shoot(transform, weaponTransform, projectilePrefab, enemyID)
 			}),
+
 			new Patrol(agent, waypoints)
 		});
 		return root;

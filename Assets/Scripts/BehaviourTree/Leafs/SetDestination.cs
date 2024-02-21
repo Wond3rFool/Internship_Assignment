@@ -16,7 +16,7 @@ public class SetDestination : Node
 	public override NodeState Evaluate()
 	{
 		agent.SetDestination(destination);
-		if(!agent.pathPending && agent.remainingDistance < 0.2f)
+		if(!agent.pathPending && agent.remainingDistance < 0.1f)
 		{
 			return NodeState.SUCCESS;
 		}

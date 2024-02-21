@@ -17,7 +17,7 @@ public class SetDestinationInterrupt : Node
 	{
 		object t = GetData(destination);
 		Vector3 position = (Vector3)t;
-		if(!agent.pathPending && agent.remainingDistance < 0.2f)
+		if(!agent.pathPending && agent.remainingDistance < 6.0f)
 		{
 			agent.SetDestination(position);
 			return NodeState.SUCCESS;

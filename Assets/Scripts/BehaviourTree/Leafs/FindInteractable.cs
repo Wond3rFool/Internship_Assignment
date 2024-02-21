@@ -10,7 +10,7 @@ public class FindInteractable: Node
 	private GameObject gameObject;
 	private string detection;
 
-	public FindInteractable(GameObject gameObject,  string detection)
+	public FindInteractable(GameObject gameObject, string detection)
 	{
 		this.gameObject = gameObject;
 		this.detection = detection;
@@ -22,31 +22,26 @@ public class FindInteractable: Node
 			gameObject.transform.position, float.MaxValue, interactableLayer);
 
 		Transform closestInteractable = null;
+		float closestDistance = float.MaxValue;
 
 		foreach(var collider in colliders)
 		{
-			if(CanReachDestination(collider.transform.position)) 
+			float distance = Vector3.Distance(gameObject.transform.position, collider.transform.position);
+
+			if(distance < closestDistance)
 			{
 				closestInteractable = collider.transform;
+				closestDistance = distance;
 			}
 		}
 
 		if(closestInteractable != null)
 		{
-			parent.parent.SetData(detection, closestInteractable);
+			parent.parent.parent.SetData(detection, closestInteractable);
 			return NodeState.SUCCESS;
 		}
 
 		return NodeState.FAILED;
-	}
-	private bool CanReachDestination(Vector3 destination)
-	{
-		NavMeshPath path = new NavMeshPath();
-
-		// Calculate the path to the destination
-		bool pathIsValid = gameObject.GetComponent<NavMeshAgent>().CalculatePath(destination, path);
-
-		return pathIsValid;
 	}
 }
 

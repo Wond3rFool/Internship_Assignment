@@ -6,7 +6,6 @@ public class WaitFor: Node
 {
 	private float elapsedTime;
 	private float timeToWait;
-	private bool isRunning;
 
 	public WaitFor(float timeToWait)
 	{
@@ -20,7 +19,6 @@ public class WaitFor: Node
 		if(elapsedTime >= timeToWait)
 		{
 			elapsedTime = 0f;
-			isRunning = false;
 			return NodeState.SUCCESS;
 		}
 

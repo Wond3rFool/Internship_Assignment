@@ -24,7 +24,7 @@ public class UseDoorClose: Node
 			// Assuming OpenDoor is a MonoBehaviour attached to the interactable GameObject
 			OpenDoor openDoorComponent = interactable.gameObject.GetComponentInParent<OpenDoor>();
 
-			if(openDoorComponent != null)
+			if(openDoorComponent != null && agent.remainingDistance < 0.1f)
 			{
 				// Call the method from the OpenDoor component
 				openDoorComponent.PlayDoorCloseAnimation();

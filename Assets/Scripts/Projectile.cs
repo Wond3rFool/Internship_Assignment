@@ -13,16 +13,33 @@ public class Projectile: MonoBehaviour
 	[Range(1.0f, 10.0f)]
 	private float lifespan;
 
+	[SerializeField]
+	private LayerMask layerMask;
+
 	private Vector2 moveDirection;
+
+	private float distance = 100f;
 
 	private void Start()
 	{
 		Destroy(gameObject, lifespan);
 	}
 
-	private void Update()
+	void Update()
 	{
 		MoveProjectile();
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, distance, layerMask);
+
+		// Check for hits and apply damage
+		if(hit.collider != null)
+		{
+			BaseHealth baseHealth = hit.collider.GetComponent<BaseHealth>();
+			if(baseHealth != null)
+			{
+				baseHealth.TakeDamage(50);
+			}
+			Destroy(gameObject);
+		}
 	}
 
 	private void MoveProjectile()
@@ -33,10 +50,5 @@ public class Projectile: MonoBehaviour
 	public void SetDirection(Vector2 direction)
 	{
 		moveDirection = direction.normalized;
-	}
-
-	private void OnTriggerEnter2D(Collider2D other)
-	{
-		Destroy(gameObject);
 	}
 }
