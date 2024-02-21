@@ -21,8 +21,8 @@ public class AimAt : Node
 		{
 			Transform targetTransform = (Transform)t;
 
-			Vector2 direction = (targetTransform.position - transform.parent.transform.position).normalized;
-			transform.parent.transform.right = direction;
+			Vector2 direction = (targetTransform.position - transform.position).normalized;
+			transform.right = direction;
 
 			Vector2 scale = transform.localScale;
 			if(direction.x < 0)

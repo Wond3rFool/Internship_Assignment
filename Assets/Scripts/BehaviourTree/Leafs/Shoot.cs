@@ -27,7 +27,7 @@ public class Shoot : Node
 
 			if(projectilePrefab != null && firePoint != null)
 			{
-				GameObject projectile = Object.Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+				GameObject projectile = Object.Instantiate(projectilePrefab, firePoint.GetChild(0).position, Quaternion.identity);
 
 				projectile.GetComponent<Projectile>().SetDirection(targetDirection);
 			}

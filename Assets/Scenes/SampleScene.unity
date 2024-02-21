@@ -4337,7 +4337,7 @@ MonoBehaviour:
   speed: 9
   findPlayerRad: 1000
   detectRadius: 15.1
-  weaponTransform: {fileID: 1048768008}
+  weaponTransform: {fileID: 302417815}
   projectilePrefab: {fileID: 1737319775501334070, guid: b2dd0a85169bd104f99c318e02b80d94, type: 3}
   fireRate: 1
 --- !u!23 &1184352799
@@ -4717,7 +4717,7 @@ MonoBehaviour:
   speed: 9
   findPlayerRad: 1000
   detectRadius: 15
-  weaponTransform: {fileID: 1837862241}
+  weaponTransform: {fileID: 849364778}
   projectilePrefab: {fileID: 1737319775501334070, guid: b2dd0a85169bd104f99c318e02b80d94, type: 3}
   fireRate: 1
 --- !u!61 &1274714425
@@ -5842,7 +5842,7 @@ MonoBehaviour:
   speed: 9
   findPlayerRad: 1000
   detectRadius: 15.1
-  weaponTransform: {fileID: 344024638}
+  weaponTransform: {fileID: 1398043295}
   projectilePrefab: {fileID: 1737319775501334070, guid: b2dd0a85169bd104f99c318e02b80d94, type: 3}
   fireRate: 1
 --- !u!23 &1771330920
