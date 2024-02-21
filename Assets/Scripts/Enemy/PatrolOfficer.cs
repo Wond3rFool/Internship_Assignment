@@ -88,10 +88,10 @@ public class PatrolOfficer: BehaviourTree
 				new WaitFor(1.0f),
 				new Sequence(new List<Node>
 				{
-					new SetDestinationInterrupt(agent, playerID),
 					new ParallelSequence(new List<Node>
 					{
 						new WaitFor(2.5f),
+						new SetDestinationInterrupt(agent, playerID),
 						new Inverter(new HasLOS(transform, enemyID, objectLayer)),
 						new Log("log")
 					}),
@@ -101,6 +101,7 @@ public class PatrolOfficer: BehaviourTree
 						new SetDestination(agent, roomPoint.position),
 						new Inverter(new HasLOS(transform, enemyID, objectLayer))
 					}),
+					new WaitFor(0.5f),
 					new UseDoorClose(agent, doorID),
 					new Function(() => doorIsOpen = false),
 					new Inverter(new WaitFor(0.1f))
