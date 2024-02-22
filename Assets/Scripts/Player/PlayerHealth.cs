@@ -11,9 +11,12 @@ public class PlayerHealth : BaseHealth
 	}
 	public bool IsDead { get { return CurrentHealth <= 0; } }
 
+	private Animator animator;
+	private bool playOnce = true;
 	private void Start()
 	{
 		ResetHealth();
+		animator = GetComponentInChildren<Animator>();	
 	}
 	public override void TakeDamage(int damage)
 	{
@@ -21,7 +24,11 @@ public class PlayerHealth : BaseHealth
 
 		if(IsDead)
 		{
-			Die();
+			if(playOnce) 
+			{
+				Die();
+			}
+			Destroy(gameObject, 3.0f);
 		}
 	}
 
@@ -32,6 +39,9 @@ public class PlayerHealth : BaseHealth
 	public override void Die()
 	{
 		Debug.Log("dead");
-
+		playOnce = false;
+		animator.SetBool("isMoving", false);
+		animator.SetBool("isSneaking", false);
+		animator.SetBool("isDead", true);
 	}
 }

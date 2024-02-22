@@ -12,10 +12,19 @@ public class PlayerMovement: MonoBehaviour
 	[Range(0.1f, 1.0f)]
 	private float sneakSpeed;
 
+	private Animator animator;
+	private PlayerHealth health;
+
 	private Vector2 moveDirection;
 	private bool isSneaking;
 
 	public static bool isMoving;
+
+	private void Awake()
+	{
+		animator = GetComponentInChildren<Animator>();
+		health = GetComponent<PlayerHealth>();
+	}
 
 	private void OnMove(InputValue value) 
 	{
@@ -28,12 +37,33 @@ public class PlayerMovement: MonoBehaviour
 
 	private void Update()
     {
-		float currentSpeed = isSneaking ? moveSpeed * sneakSpeed : moveSpeed;
-		Vector3 movement = new Vector3(moveDirection.x, moveDirection.y, 0) * currentSpeed * Time.deltaTime;
+		if(!health.IsDead) 
+		{
+			float currentSpeed = isSneaking ? moveSpeed * sneakSpeed : moveSpeed;
+			Vector3 movement = new Vector3(moveDirection.x, moveDirection.y, 0) * currentSpeed * Time.deltaTime;
 
-		if(movement.sqrMagnitude < 0.0001f || isSneaking) { isMoving = false; }
-		else {isMoving = true;}
+			if(movement.sqrMagnitude < 0.0001f)
+			{
+				isMoving = false;
+				animator.SetBool("isMoving", false);
+				animator.SetBool("isSneaking", false);
+			}
+			else
+			{
+				animator.SetBool("isMoving", true);
+				isMoving = true;
 
-		transform.Translate(movement);
+				if(isSneaking)
+				{
+					animator.SetBool("isSneaking", true);
+					isMoving = false;
+				}
+				else
+				{
+					animator.SetBool("isSneaking", false);
+				}
+			}
+			transform.Translate(movement);
+		}
 	} 
 }

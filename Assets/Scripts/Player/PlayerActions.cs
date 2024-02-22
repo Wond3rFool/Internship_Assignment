@@ -15,7 +15,8 @@ public class PlayerActions: MonoBehaviour
 
 	private Vector3 mouseDirection;
 	private Vector2 mouseInput;
-	private WeaponParent weaponParent;
+	private PlayerRotate playerRotate;
+	private PlayerHealth health;
 
 	private bool isShooting;
 	private float shotTimer;
@@ -31,16 +32,20 @@ public class PlayerActions: MonoBehaviour
 	}
 	private void Awake()
 	{
-		weaponParent = GetComponentInChildren<WeaponParent>();
+		playerRotate = GetComponentInChildren<PlayerRotate>();
+		health = GetComponent<PlayerHealth>();
 	}
 	private void Update()
 	{
-		mouseInput = GetMousePosition();
-		weaponParent.PointerPostion = mouseInput;
-		if(isShooting && Time.time >= shotTimer)
+		if(!health.IsDead) 
 		{
-			Shoot();
-			shotTimer = Time.time + 1f / fireRate;
+			mouseInput = GetMousePosition();
+			playerRotate.PointerPostion = mouseInput;
+			if(isShooting && Time.time >= shotTimer)
+			{
+				Shoot();
+				shotTimer = Time.time + 1f / fireRate;
+			}
 		}
 	}
 
