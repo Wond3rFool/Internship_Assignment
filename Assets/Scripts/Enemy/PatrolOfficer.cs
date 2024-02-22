@@ -43,6 +43,8 @@ public class PatrolOfficer: BehaviourTree
 	private bool doorIsOpen;
 
 	private NavMeshAgent agent;
+	private Animator animator;
+	private EnemyHealth health;
 
 	private void Awake()
 	{
@@ -54,6 +56,9 @@ public class PatrolOfficer: BehaviourTree
 		agent.updateRotation = false;
 		agent.updateUpAxis = false;
 		agent.speed = speed;
+
+		health = GetComponent<EnemyHealth>();
+		animator = GetComponentInChildren<Animator>();
 		foundDoor = false;
 		doorIsOpen = false;
 	}
@@ -62,6 +67,8 @@ public class PatrolOfficer: BehaviourTree
 	{
 		Node root = new Selector(new List<Node>
 		{
+			new Condition(() => health.IsDead),
+
 			new Inverter(new FindPlayer(gameObject, findPlayerRad, enemyID)),
 
 			new Sequence(new List<Node>
@@ -84,21 +91,21 @@ public class PatrolOfficer: BehaviourTree
 					new Function(() => doorIsOpen = true),
 
 				})),
-				new SetDestination(agent, doorPoint.position),
+				new SetDestination(agent, animator, weaponTransform, doorPoint.position),
 				new WaitFor(1.0f),
 				new Sequence(new List<Node>
 				{
 					new ParallelSequence(new List<Node>
 					{
 						new WaitFor(2.5f),
-						new SetDestinationInterrupt(agent, playerID),
+						new SetDestinationInterrupt(agent, animator, weaponTransform, playerID),
 						new Inverter(new HasLOS(transform, enemyID, objectLayer)),
 						new Log("log")
 					}),
 					new WaitFor(1.5f),
 					new ParallelSequence(new List<Node>
 					{
-						new SetDestination(agent, roomPoint.position),
+						new SetDestination(agent, animator, weaponTransform, roomPoint.position),
 						new Inverter(new HasLOS(transform, enemyID, objectLayer))
 					}),
 					new WaitFor(0.5f),
@@ -114,14 +121,22 @@ public class PatrolOfficer: BehaviourTree
 				new ParallelSequence(new List<Node>
 				{
 					new AimAt(weaponTransform, enemyID),
-					new SetDestinationInterrupt(agent, playerID),
+					new SetDestinationInterrupt(agent, animator, weaponTransform, playerID),
 					new WaitFor(fireRate)
 				}),
 				new Shoot(transform, weaponTransform, projectilePrefab, enemyID)
 			}),
 
-			new Patrol(agent, waypoints)
+			new Patrol(agent, animator, weaponTransform, waypoints)
 		});
 		return root;
+	}
+
+	protected override void Update()
+	{
+		if(!health.IsDead) 
+		{
+			base.Update();
+		}
 	}
 }

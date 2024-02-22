@@ -35,7 +35,6 @@ public class Projectile: MonoBehaviour
 		int layerMaskWithoutSelf = layerMask.value & ~(1 << parent.layer);
 
 		RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, distance, layerMaskWithoutSelf);
-
 		// Check for hits and apply damage
 		if(hit.collider != null)
 		{

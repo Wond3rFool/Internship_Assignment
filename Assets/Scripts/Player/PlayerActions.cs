@@ -15,7 +15,7 @@ public class PlayerActions: MonoBehaviour
 
 	private Vector3 mouseDirection;
 	private Vector2 mouseInput;
-	private PlayerRotate playerRotate;
+	private RotateToMouse playerRotate;
 	private PlayerHealth health;
 
 	private bool isShooting;
@@ -32,7 +32,7 @@ public class PlayerActions: MonoBehaviour
 	}
 	private void Awake()
 	{
-		playerRotate = GetComponentInChildren<PlayerRotate>();
+		playerRotate = GetComponentInChildren<RotateToMouse>();
 		health = GetComponent<PlayerHealth>();
 	}
 	private void Update()

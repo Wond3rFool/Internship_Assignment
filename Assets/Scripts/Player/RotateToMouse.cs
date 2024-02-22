@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRotate : MonoBehaviour
+public class RotateToMouse : MonoBehaviour
 {
 	public Vector2 PointerPostion { get; set; }
 

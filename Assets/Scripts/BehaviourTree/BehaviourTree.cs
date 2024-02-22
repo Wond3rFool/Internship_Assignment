@@ -12,7 +12,7 @@ public abstract class BehaviourTree : MonoBehaviour
 	}
 	protected abstract Node SetupTree();
 
-	private void Update()
+	protected virtual void Update()
 	{
 		if(root != null) { root.Evaluate(); }
 	}

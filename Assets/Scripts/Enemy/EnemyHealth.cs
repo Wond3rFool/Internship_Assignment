@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyHealth: BaseHealth
 {
@@ -11,9 +12,13 @@ public class EnemyHealth: BaseHealth
 	}
 	public bool IsDead { get { return CurrentHealth <= 0; } }
 
+	private Animator animator;
+	private NavMeshAgent agent;
 	private void Start()
 	{
 		ResetHealth();
+		animator = GetComponentInChildren<Animator>();
+		agent = GetComponent<NavMeshAgent>();
 	}
 	public override void TakeDamage(int damage)
 	{
@@ -22,14 +27,10 @@ public class EnemyHealth: BaseHealth
 		if(IsDead)
 		{
 			Die();
+			agent.isStopped = true;
+			Destroy(gameObject, 3.0f);
 		}
 	}
-
-	public void TakeDamage(int damage, Transform origin)
-	{
-		TakeDamage(damage);
-	}
-
 	public void ResetHealth()
 	{
 		CurrentHealth = maxHealth;
@@ -37,6 +38,6 @@ public class EnemyHealth: BaseHealth
 	public override void Die()
 	{
 		Debug.Log("dead");
-		Destroy(gameObject.transform.parent.gameObject);
+		animator.SetBool("isDead", true);
 	}
 }

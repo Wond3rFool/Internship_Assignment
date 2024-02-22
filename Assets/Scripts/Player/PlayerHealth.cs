@@ -12,7 +12,6 @@ public class PlayerHealth : BaseHealth
 	public bool IsDead { get { return CurrentHealth <= 0; } }
 
 	private Animator animator;
-	private bool playOnce = true;
 	private void Start()
 	{
 		ResetHealth();
@@ -24,10 +23,7 @@ public class PlayerHealth : BaseHealth
 
 		if(IsDead)
 		{
-			if(playOnce) 
-			{
-				Die();
-			}
+			Die();
 			Destroy(gameObject, 3.0f);
 		}
 	}
@@ -39,9 +35,6 @@ public class PlayerHealth : BaseHealth
 	public override void Die()
 	{
 		Debug.Log("dead");
-		playOnce = false;
-		animator.SetBool("isMoving", false);
-		animator.SetBool("isSneaking", false);
 		animator.SetBool("isDead", true);
 	}
 }

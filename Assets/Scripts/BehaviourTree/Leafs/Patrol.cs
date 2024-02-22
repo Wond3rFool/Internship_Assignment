@@ -10,45 +10,33 @@ public class Patrol: Node
 	private bool waiting = false;
 
 	private NavMeshAgent agent;
+	private Animator animator;
+	private Transform rotation;
 	private List<Transform> waypoints = new List<Transform>();
 	private int currentWaypointIndex = 0;
 
-	public Patrol(NavMeshAgent agent, Transform[] patrolWaypoints)
+	public Patrol(NavMeshAgent agent, Animator animator, Transform rotation, Transform[] patrolWaypoints)
 	{
 		this.agent = agent;
-
-		if(agent == null)
-		{
-			Debug.LogWarning("NavMeshAgent not provided for patrol.");
-		}
+		this.animator = animator;
+		this.rotation = rotation;
 
 		if(patrolWaypoints != null && patrolWaypoints.Length > 0)
 		{
 			waypoints.AddRange(patrolWaypoints);
 		}
-		else
-		{
-			Debug.LogWarning("No waypoints provided for patrol.");
-		}
 	}
 
 	public override NodeState Evaluate()
 	{
-		if(agent == null)
-		{
-			Debug.LogWarning("NavMeshAgent not provided for patrol.");
-			return NodeState.FAILED;
-		}
-
-		if(waypoints.Count == 0)
-		{
-			Debug.LogWarning("No waypoints available for patrol.");
-			return NodeState.FAILED;
-		}
 		Transform currentWaypoint = waypoints[currentWaypointIndex];
 		agent.SetDestination(currentWaypoint.position);
+		animator.SetBool("isMoving", true);
+		Vector2 direction = (currentWaypoint.position - agent.transform.position).normalized;
+		rotation.up = direction;
 		if(waiting)
 		{
+			animator.SetBool("isMoving", false);
 			waitCounter += Time.deltaTime;
 			if(waitCounter > waitTime)
 			{
@@ -73,6 +61,9 @@ public class Patrol: Node
 			{
 				// Set the destination for the NavMeshAgent
 				agent.SetDestination(currentWaypoint.position);
+				animator.SetBool("isMoving", true);
+				direction = (currentWaypoint.position - agent.transform.position).normalized;
+				rotation.up = direction;
 				return NodeState.SUCCESS;
 			}
 		}
