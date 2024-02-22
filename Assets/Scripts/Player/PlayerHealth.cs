@@ -32,6 +32,6 @@ public class PlayerHealth : BaseHealth
 	public override void Die()
 	{
 		Debug.Log("dead");
-		Destroy(gameObject.transform.parent.gameObject);
+
 	}
 }

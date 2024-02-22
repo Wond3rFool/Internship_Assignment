@@ -58,7 +58,7 @@ public class PlayerActions: MonoBehaviour
 
 			Vector2 direction = (mouseInput - (Vector2)firePoint.position).normalized;
 
-			projectile.GetComponent<Projectile>().SetDirection(direction);
+			projectile.GetComponent<Projectile>().SetDirection(direction, gameObject);
 		}
 		else
 		{

@@ -18,6 +18,8 @@ public class Projectile: MonoBehaviour
 
 	private Vector2 moveDirection;
 
+	private GameObject parent;
+
 	private float distance = 100f;
 
 	private void Start()
@@ -28,7 +30,11 @@ public class Projectile: MonoBehaviour
 	void Update()
 	{
 		MoveProjectile();
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, distance, layerMask);
+
+		// Create a layer mask that excludes the layer of the entity firing the bullet
+		int layerMaskWithoutSelf = layerMask.value & ~(1 << parent.layer);
+
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, distance, layerMaskWithoutSelf);
 
 		// Check for hits and apply damage
 		if(hit.collider != null)
@@ -47,8 +53,9 @@ public class Projectile: MonoBehaviour
 		transform.Translate(moveDirection * speed * Time.deltaTime);
 	}
 
-	public void SetDirection(Vector2 direction)
+	public void SetDirection(Vector2 direction, GameObject parent)
 	{
+		this.parent = parent;
 		moveDirection = direction.normalized;
 	}
 }

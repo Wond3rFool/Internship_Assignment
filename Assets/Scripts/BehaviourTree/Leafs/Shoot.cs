@@ -29,7 +29,7 @@ public class Shoot : Node
 			{
 				GameObject projectile = Object.Instantiate(projectilePrefab, firePoint.GetChild(0).position, Quaternion.identity);
 
-				projectile.GetComponent<Projectile>().SetDirection(targetDirection);
+				projectile.GetComponent<Projectile>().SetDirection(targetDirection, transform.gameObject);
 			}
 			else
 			{
